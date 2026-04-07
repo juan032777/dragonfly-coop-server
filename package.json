@@ -1,8 +1,13 @@
 {
   "name": "dragonfly-coop-server",
   "version": "1.0.0",
+  "description": "Dragonfly's Flight real-time co-op server",
+  "main": "coop-server.js",
   "scripts": {
     "start": "node coop-server.js"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "engines": {
+    "node": ">=18.0.0"
+  }
 }
