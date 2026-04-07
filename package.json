@@ -6,9 +6,7 @@
   "scripts": {
     "start": "node coop-server.js"
   },
-  "dependencies": {
-    "socket.io": "^4.7.2"
-  },
+  "dependencies": {},
   "engines": {
     "node": ">=18.0.0"
   }
