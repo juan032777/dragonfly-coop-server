@@ -124,27 +124,22 @@ console.log(’connected ’ + id);
 var buf = Buffer.alloc(0);
 
 socket.on(‘data’, function(chunk){
-try {
 buf = Buffer.concat([buf, chunk]);
-if(buf.length > 65536){ socket.destroy(); return; }
 while(true){
 var f = parseFrame(buf);
 if(!f) break;
 if(f.op === 8){ socket.destroy(); break; }
 if(f.op === 1){
-try { handleMessage(id, JSON.parse(f.text)); }catch(e){}
+try {
+handleMessage(id, JSON.parse(f.text));
+} catch(e){}
 }
-if(!f.size || f.size <= 0) break;
 buf = buf.slice(f.size);
-}
-} catch(e){
-console.log(’data err: ’ + e.message);
-try{ socket.destroy(); }catch(e2){}
 }
 });
 
 socket.on(‘close’, function(){ onDisconnect(id); });
-socket.on(‘error’, function(err){ console.log(’socket err: ’ + err.message); onDisconnect(id); });
+socket.on(‘error’, function(){ onDisconnect(id); });
 });
 
 function handleMessage(id, m){
@@ -301,11 +296,4 @@ delete rooms[codes[i]];
 var PORT = process.env.PORT || 3000;
 server.listen(PORT, function(){
 console.log(’Dragonfly Co-op Server running on port ’ + PORT);
-});
-
-process.on(‘uncaughtException’, function(err){
-console.log(’uncaughtException: ’ + err.message);
-});
-process.on(‘unhandledRejection’, function(err){
-console.log(’unhandledRejection: ’ + err);
 });
